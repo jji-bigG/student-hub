@@ -1,5 +1,5 @@
 function App() {
-  return <>Main page</>;
+  return <>something</>;
 }
 
 export default App;
