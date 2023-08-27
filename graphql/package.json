@@ -5,16 +5,16 @@
   "main": "index.js",
   "author": "jerry",
   "license": "MIT",
-
   "type": "module",
   "scripts": {
     "compile": "tsc",
     "start": "npm run compile && node ./dist/index.js"
   },
-  
   "dependencies": {
     "@apollo/server": "^4.9.2",
-    "graphql": "^16.8.0"
+    "apollo-datasource-mongodb": "^0.5.4",
+    "graphql": "^16.8.0",
+    "mongodb": "^5.8.1"
   },
   "devDependencies": {
     "@types/node": "^20.5.6",
