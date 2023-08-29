@@ -25,27 +25,21 @@ export default function SignUp() {
   const handleBack = () => setActiveStep(activeStep - 1);
   const handleNext = () => setActiveStep(activeStep + 1);
 
-  const stepWrapper = (component: React.ReactNode) => {
-    return (
-      <React.Fragment>
-        {component}
-        <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
-          {activeStep !== 0 && (
-            <Button onClick={handleBack} sx={{ mt: 3, ml: 1 }}>
-              Back
-            </Button>
-          )}
-          <Button
-            variant="contained"
-            onClick={handleNext}
-            sx={{ mt: 3, ml: 1 }}
-          >
-            {activeStep === Object.keys(steps).length - 1 ? "Register" : "Next"}
+  const stepWrapper = (component: React.ReactNode) => (
+    <React.Fragment>
+      {component}
+      <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+        {activeStep !== 0 && (
+          <Button onClick={handleBack} sx={{ mt: 3, ml: 1 }}>
+            Back
           </Button>
-        </Box>
-      </React.Fragment>
-    );
-  };
+        )}
+        <Button variant="contained" onClick={handleNext} sx={{ mt: 3, ml: 1 }}>
+          {activeStep === Object.keys(steps).length - 1 ? "Register" : "Next"}
+        </Button>
+      </Box>
+    </React.Fragment>
+  );
 
   return (
     <Container component="main" maxWidth="sm" sx={{ mb: 4 }}>

@@ -1,11 +1,12 @@
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
 
-import { typeDefs as User, resolvers as userResolver } from "./types/user";
+import { typeDefs as User, resolvers as userResolver } from "./types/user.js";
+import { typeDefs as Dorm, resolvers as dormResolvers } from "./types/dorm.js";
 
 import { MongoClient } from "mongodb";
 
-import DSMongoDB from "./datasources/DSMongoDB";
+import DSMongoDB from "./datasources/DSMongoDB.js";
 
 const mongoClient = new MongoClient("mongodb://localhost:27017/test");
 mongoClient.connect();
@@ -15,9 +16,9 @@ type Query {
   _empty: String
 }
 
-type Mutation {}
+# type Mutation {}
 
-type Subscribe {}
+# type Subscribe {}
 `;
 
 interface ContextValues {
@@ -27,8 +28,8 @@ interface ContextValues {
 }
 
 const server = new ApolloServer<ContextValues>({
-  typeDefs: [Base, User],
-  resolvers: { ...userResolver },
+  typeDefs: [Base, User, Dorm],
+  resolvers: { ...userResolver, ...dormResolvers },
 });
 
 const { url } = await startStandaloneServer(server, {
