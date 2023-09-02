@@ -5,7 +5,6 @@
  * https://dev.to/asjadanis/parsing-env-with-typescript-3jjm
  */
 
-import path from "path";
 import dotenv from "dotenv";
 
 dotenv.config();
