@@ -1,20 +1,32 @@
 import mongoose, { InferSchemaType, Schema } from "mongoose";
-import UserSchema from "./User.model";
-import UniversitySchema from "./University.model";
-import CollegeSchema from "./College.model";
+import UserSchema, { User } from "./User.model";
+import UniversitySchema, { University } from "./University.model";
+import CollegeSchema, { College } from "./College.model";
+import { Dorm } from "./Dorm.model";
 
-const schema = new Schema({
-  user: { type: UserSchema },
+export interface Student {
+  user: User;
+
+  preferedName: string;
+  studentID: string;
+
+  friends: [User];
+  university: University;
+  college: College;
+  dorm: Dorm;
+}
+
+const schema = new Schema<Student>({
+  user: { type: UserSchema, required: true },
 
   preferedName: String,
-  studentID: String,
+  studentID: { type: String, required: true },
 
   friends: [UserSchema],
 
   university: { type: UniversitySchema, required: true },
   college: { type: CollegeSchema, required: true },
+  // dorm: {}
 });
-
-type Student = InferSchemaType<typeof schema>;
 
 export default mongoose.model("Student", schema);

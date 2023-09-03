@@ -1,10 +1,12 @@
 import mongoose, { InferSchemaType, Schema } from "mongoose";
-import UserSchema from "./User.model";
+import StudentModel from "./Student.model";
 
 const schema = new Schema({
-  user: { type: UserSchema },
+  name: { type: String, required: true },
+
+  // majors, minors
 });
 
-type College = InferSchemaType<typeof schema>;
+export type College = InferSchemaType<typeof schema>;
 
 export default mongoose.model("College", schema);

@@ -10,26 +10,29 @@ const validateEmail = function (email: string) {
   return re.test(email);
 };
 
-const schema = new Schema({
-  name: { type: String, required: true },
-  username: String, // for alliasing himself in the app
-  email: {
-    // https://stackoverflow.com/questions/18022365/mongoose-validate-email-syntax
-    type: String,
-    trim: true,
-    lowercase: true,
-    unique: true,
-    required: true,
-    validate: [validateEmail, "Please fill a valid email address"],
-    match: [
-      /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
-      "Please fill a valid email address",
-    ],
+const schema = new Schema(
+  {
+    name: { type: String, required: true },
+    username: String, // for alliasing himself in the app
+    email: {
+      // https://stackoverflow.com/questions/18022365/mongoose-validate-email-syntax
+      type: String,
+      trim: true,
+      lowercase: true,
+      unique: true,
+      required: true,
+      validate: [validateEmail, "Please fill a valid email address"],
+      match: [
+        /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
+        "Please fill a valid email address",
+      ],
+    },
+    password: { type: String, required: true },
   },
-  password: { type: String, required: true },
-
-  student: { type: String, required: true },
-});
+  {
+    timestamps: true,
+  }
+);
 
 schema.pre("save", function (next): void {
   const user = this;
