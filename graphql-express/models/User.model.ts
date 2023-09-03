@@ -1,6 +1,6 @@
 import mongoose, { InferSchemaType, Schema } from "mongoose";
 
-import bcrypt from "bcrypt";
+// import bcrypt from "bcrypt";
 
 import passportLocalMongoose from "passport-local-mongoose";
 
@@ -13,7 +13,8 @@ const validateEmail = function (email: string) {
 const schema = new Schema(
   {
     name: { type: String, required: true },
-    username: String, // for alliasing himself in the app
+    // username: String, // depricated for adopting passportlocalmongoose
+    alias: String, // for alliasing himself in the app
     email: {
       // https://stackoverflow.com/questions/18022365/mongoose-validate-email-syntax
       type: String,
@@ -27,37 +28,38 @@ const schema = new Schema(
         "Please fill a valid email address",
       ],
     },
-    password: { type: String, required: true },
+    // password: { type: String, required: true },
   },
   {
     timestamps: true,
   }
 );
 
-schema.pre("save", function (next): void {
-  const user = this;
-  if (user.isModified("password")) {
-    bcrypt.genSalt(7, function (err, salt) {
-      if (!err)
-        bcrypt.hash(user.password, salt, function (err, hash): void {
-          if (err) next(err);
-          else user.password = hash;
-        });
-      else next(err);
-    });
-  }
-  next();
-});
+// depricated for using passport-local-mongoose (two blocks below)
+// schema.pre("save", function (next): void {
+//   const user = this;
+//   if (user.isModified("password")) {
+//     bcrypt.genSalt(7, function (err, salt) {
+//       if (!err)
+//         bcrypt.hash(user.password, salt, function (err, hash): void {
+//           if (err) next(err);
+//           else user.password = hash;
+//         });
+//       else next(err);
+//     });
+//   }
+//   next();
+// });
 
-schema.methods.comparePassword = function (
-  candidatePassword: string,
-  cb: (err: Error | null, isMatch?: boolean) => {}
-) {
-  bcrypt.compare(candidatePassword, this.password, function (err, isMatch) {
-    if (err) return cb(err);
-    cb(null, isMatch);
-  });
-};
+// schema.methods.comparePassword = function (
+//   candidatePassword: string,
+//   cb: (err: Error | null, isMatch?: boolean) => {}
+// ) {
+//   bcrypt.compare(candidatePassword, this.password, function (err, isMatch) {
+//     if (err) return cb(err);
+//     cb(null, isMatch);
+//   });
+// };
 
 schema.plugin(passportLocalMongoose);
 

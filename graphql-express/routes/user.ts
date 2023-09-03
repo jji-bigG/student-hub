@@ -12,7 +12,7 @@ const authenticate: RequestHandler<{
   password: string;
 }> = (req, res, next) => {
   // now implement the authencation using passport and its jwt strategy
-  // https://heynode.com/tutorial/authenticate-users-node-expressjs-and-passportjs/
+  // https://heynojde.com/tutorial/authenticate-users-node-expressjs-and-passportjs/
   // has a lot of neat libraries that can be chugged together easily with passport
 };
 
