@@ -1,5 +1,5 @@
 import mongoose, { InferSchemaType, Schema } from "mongoose";
-import UserSchema from "./User.schema";
+import UserSchema from "./User.model";
 
 const schema = new Schema({
   user: { type: UserSchema },

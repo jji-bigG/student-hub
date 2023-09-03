@@ -1,6 +1,9 @@
 import mongoose, { InferSchemaType, Schema } from "mongoose";
 
 import bcrypt from "bcrypt";
+
+import passportLocalMongoose from "passport-local-mongoose";
+
 // https://stackoverflow.com/questions/18022365/mongoose-validate-email-syntax
 const validateEmail = function (email: string) {
   var re = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
@@ -52,6 +55,8 @@ schema.methods.comparePassword = function (
     cb(null, isMatch);
   });
 };
+
+schema.plugin(passportLocalMongoose);
 
 export type User = InferSchemaType<typeof schema>;
 

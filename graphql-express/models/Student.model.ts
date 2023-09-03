@@ -1,7 +1,7 @@
 import mongoose, { InferSchemaType, Schema } from "mongoose";
-import UserSchema from "./User.schema";
-import UniversitySchema from "./University.schema";
-import CollegeSchema from "./College.schema";
+import UserSchema from "./User.model";
+import UniversitySchema from "./University.model";
+import CollegeSchema from "./College.model";
 
 const schema = new Schema({
   user: { type: UserSchema },
