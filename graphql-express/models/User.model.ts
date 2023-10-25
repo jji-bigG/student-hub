@@ -13,19 +13,8 @@ const validateEmail = function (email: string) {
 const schema = new Schema(
   {
     name: { type: String, required: true },
-    email: {
-      // https://stackoverflow.com/questions/18022365/mongoose-validate-email-syntax
-      type: String,
-      trim: true,
-      lowercase: true,
-      unique: true,
-      required: true,
-      validate: [validateEmail, "Please fill a valid email address"],
-      match: [
-        /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
-        "Please fill a valid email address",
-      ],
-    },
+    email: { type: String, required: true, unique: true },
+    username: { type: String, unique: true, required: true },
   },
   {
     timestamps: true,
