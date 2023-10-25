@@ -1,8 +1,8 @@
-import { Router } from "express";
+import { Request, Router } from "express";
 import { RequestHandler } from "express-serve-static-core";
-import UserSchema from "../models/User.model";
 import passport, { AuthenticateCallback } from "passport";
 import jwt from "express-jwt";
+import UserModel from "../models/User.model";
 
 const router = Router();
 
@@ -34,7 +34,7 @@ router
     console.log(data);
 
     try {
-      UserSchema.register(data, data.password);
+      UserModel.register(data, data.password);
 
       res.send(200);
     } catch (error) {
@@ -48,5 +48,26 @@ router
   });
 
 router.post("/auth", authenticate);
+
+router.get(
+  "/isunique",
+  async (req: Request<{ email?: string; username?: string }>, res) => {
+    // check whether the username or email is unique for an upcoming user registration
+    const ret = { unique: true };
+
+    if (req.params.email) {
+      const user = await UserModel.findOne({ email: req.params.email }).exec();
+      if (user) ret.unique = false;
+    }
+    if (req.params.username) {
+      const user = await UserModel.findOne({
+        username: req.params.username,
+      }).exec();
+      if (user) ret.unique = false;
+    }
+
+    res.json(ret);
+  }
+);
 
 export default router;

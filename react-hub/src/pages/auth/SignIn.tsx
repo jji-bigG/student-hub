@@ -1,7 +1,5 @@
-import * as React from "react";
-
 import { SubmitHandler, useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, redirect } from "react-router-dom";
 
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
@@ -26,16 +24,19 @@ export default function SignIn() {
   const {
     register,
     handleSubmit,
-    watch,
+    // watch,
     formState: { errors },
   } = useForm<FormProps>();
 
   const onSubmit: SubmitHandler<FormProps> = async (data) => {
-    const resp = await userRequests.post("auth", data);
-    console.log(resp.data);
+    await userRequests.post("auth", data);
 
     const isAuthenticated = await userRequests.get("/");
-    console.log(isAuthenticated.data);
+    if (isAuthenticated.data.authenticated) {
+      console.log(isAuthenticated.data);
+
+      redirect("/");
+    }
   };
 
   return (
@@ -65,9 +66,7 @@ export default function SignIn() {
             margin="normal"
             required
             fullWidth
-            id="username"
             label="Username"
-            autoComplete="username"
             autoFocus
             error={errors.username?.message === null}
             helperText={errors.username ? errors.username.message : ""}
@@ -78,8 +77,6 @@ export default function SignIn() {
             required
             fullWidth
             label="Password"
-            type="password"
-            id="password"
             error={errors.password?.message === null}
             helperText={errors.password ? errors.password.message : ""}
             {...register("password", { required: true })}
