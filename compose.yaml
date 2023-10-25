@@ -6,6 +6,8 @@ services:
 
   react:
     build: /react-hub
+    ports:
+      -"3000:5173"
 
   mongodb: 
     image: mongo:latest

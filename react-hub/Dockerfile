@@ -8,4 +8,6 @@ COPY package*.json /react-hub/
 
 RUN yarn install
 
+EXPOSE 5173
+
 RUN ["yarn", "dev"]

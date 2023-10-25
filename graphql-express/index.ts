@@ -6,6 +6,7 @@ import { ApolloServer, ExpressContext, gql } from "apollo-server-express";
 import cors from "cors";
 
 import authRouter from "./routes/user";
+import stuRouter from "./routes/student";
 import session from "express-session";
 import passport from "passport";
 import UserModel from "./models/User.model";
@@ -13,8 +14,8 @@ import UserModel from "./models/User.model";
 const app: Express = express();
 app.use(express.json());
 
-const allowedOrigins = ["http://localhost:3000"];
-app.use(cors({ origin: allowedOrigins }));
+const allowedOrigins = ["http://localhost:3000", "http://localhost:5173"];
+app.use(cors({ origin: allowedOrigins, credentials: true }));
 
 // passport authentication
 // must enable sessions support to have passport (uses secure cookies)
@@ -39,6 +40,7 @@ passport.deserializeUser(UserModel.deserializeUser());
 
 // adopting different routers below
 app.use("/user", authRouter);
+app.use("/student", stuRouter);
 
 // pass in graphql params & configs below
 const typeDefs = gql`

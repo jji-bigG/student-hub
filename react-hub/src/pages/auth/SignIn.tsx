@@ -1,4 +1,8 @@
 import * as React from "react";
+
+import { SubmitHandler, useForm } from "react-hook-form";
+import { Link } from "react-router-dom";
+
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -11,11 +15,10 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { userRequests } from "../../requests";
 
 interface FormProps {
-  netId: string;
+  username: string;
   password: string;
 }
 
@@ -27,8 +30,12 @@ export default function SignIn() {
     formState: { errors },
   } = useForm<FormProps>();
 
-  const onSubmit: SubmitHandler<FormProps> = (data) => {
-    console.log(data);
+  const onSubmit: SubmitHandler<FormProps> = async (data) => {
+    const resp = await userRequests.post("auth", data);
+    console.log(resp.data);
+
+    const isAuthenticated = await userRequests.get("/");
+    console.log(isAuthenticated.data);
   };
 
   return (
@@ -58,13 +65,13 @@ export default function SignIn() {
             margin="normal"
             required
             fullWidth
-            id="email"
-            label="netID"
-            autoComplete="email"
+            id="username"
+            label="Username"
+            autoComplete="username"
             autoFocus
-            error={errors.netId?.message === null}
-            helperText={errors.netId ? errors.netId.message : ""}
-            {...register("netId", { required: true })}
+            error={errors.username?.message === null}
+            helperText={errors.username ? errors.username.message : ""}
+            {...register("username", { required: true })}
           />
           <TextField
             margin="normal"
