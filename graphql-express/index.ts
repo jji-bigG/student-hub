@@ -70,7 +70,7 @@ const mongoConnect = async () => {
 mongoConnect();
 
 app.get("/", (req: Request, res: Response) => {
-  res.send("Welcome to Student Hub Server");
+  res.send("Welcome to Student Hub Server!");
 });
 
 const port = process.env.PORT;

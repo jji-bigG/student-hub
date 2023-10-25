@@ -13,8 +13,6 @@ const validateEmail = function (email: string) {
 const schema = new Schema(
   {
     name: { type: String, required: true },
-    // username: String, // depricated for adopting passportlocalmongoose
-    alias: String, // for alliasing himself in the app
     email: {
       // https://stackoverflow.com/questions/18022365/mongoose-validate-email-syntax
       type: String,
@@ -28,7 +26,6 @@ const schema = new Schema(
         "Please fill a valid email address",
       ],
     },
-    // password: { type: String, required: true },
   },
   {
     timestamps: true,
