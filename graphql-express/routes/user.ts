@@ -32,11 +32,11 @@ router
     console.log(data);
 
     try {
-      UserModel.register(data, data.password);
+      const resp = await UserModel.register(data, data.password);
 
       res.sendStatus(200);
     } catch (error) {
-      console.log(error);
+      console.log("error in registering user: ", error);
       res.statusMessage = "Cannot create user";
       res.sendStatus(500);
     }

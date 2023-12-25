@@ -14,6 +14,10 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { userRequests } from "../../requests";
+import { useState } from "react";
+import { Alert, Snackbar } from "@mui/material";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
 
 interface FormProps {
   username: string;
@@ -21,6 +25,8 @@ interface FormProps {
 }
 
 export default function SignIn() {
+  const [message, setMessage] = useState("");
+
   const {
     register,
     handleSubmit,
@@ -30,20 +36,37 @@ export default function SignIn() {
   const navigate = useNavigate();
 
   const onSubmit: SubmitHandler<FormProps> = async (data) => {
-    const resp = await userRequests.post("auth", data);
-    console.log(resp);
-
-    const isAuthenticated = await userRequests.get("/");
-    if (isAuthenticated.data.authenticated) {
-      console.log(isAuthenticated.data);
-
+    try {
+      await userRequests.post("auth", data);
       navigate("/");
+    } catch (error) {
+      setMessage("Login Failed: Check Username or Password");
     }
   };
 
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
+
+      <Snackbar
+        open={message.length != 0}
+        onClose={() => setMessage("")}
+        message={message}
+        action={
+          <IconButton
+            size="small"
+            aria-label="close"
+            color="inherit"
+            onClick={() => setMessage("")}
+          >
+            <CloseIcon fontSize="small" />
+          </IconButton>
+        }
+      >
+        <Alert severity="error" onClose={() => setMessage("")}>
+          {message}
+        </Alert>
+      </Snackbar>
       <Box
         sx={{
           marginTop: 8,
