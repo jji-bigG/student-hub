@@ -1,7 +1,6 @@
 import * as React from "react";
 import { styled, useTheme, Theme, CSSObject } from "@mui/material/styles";
 import MuiDrawer from "@mui/material/Drawer";
-import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 import List from "@mui/material/List";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
@@ -18,7 +17,7 @@ import MailIcon from "@mui/icons-material/Mail";
 import AppNavBase from "./AppNavBase";
 import { userRequests } from "../requests";
 import { useNavigate } from "react-router-dom";
-import { Box, Tooltip, Avatar, Menu, MenuItem, Button } from "@mui/material";
+import { Box, Tooltip, Avatar, Menu, MenuItem } from "@mui/material";
 
 const drawerWidth = 240;
 
