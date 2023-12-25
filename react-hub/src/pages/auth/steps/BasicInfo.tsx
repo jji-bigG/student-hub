@@ -8,9 +8,11 @@ import {
 } from "@mui/material";
 import React, { LegacyRef, RefObject } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { userRequests } from "../../../requests";
 
 interface Props {
   submitRef: RefObject<HTMLButtonElement>;
+  nextStep: VoidFunction;
 }
 
 interface FormProps {
@@ -21,14 +23,16 @@ interface FormProps {
   password: string;
 }
 
-export default function BasicInfo({ submitRef }: Props) {
+export default function BasicInfo({ submitRef, nextStep }: Props) {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<FormProps>();
 
-  const onSubmit: SubmitHandler<FormProps> = (data) => console.log(data);
+  const onSubmit: SubmitHandler<FormProps> = (data) => {
+    userRequests.post("/", data);
+  };
 
   return (
     <Container>
@@ -79,7 +83,7 @@ export default function BasicInfo({ submitRef }: Props) {
                   ? errors.username.message
                   : "Username cannot be changed."
               }
-              {...register("email", { required: true })}
+              {...register("username", { required: true })}
             />
           </Grid>
 

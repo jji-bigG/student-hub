@@ -55,6 +55,8 @@ export default function College({ submitRef }: Props) {
                   {...params}
                   label="University"
                   fullWidth
+                  required
+                  autoFocus
                   {...register("university", { required: true })}
                 />
               )}
@@ -73,11 +75,9 @@ export default function College({ submitRef }: Props) {
 
           <Grid item xs={4}>
             <TextField
-              autoFocus
               variant="standard"
               label="Student ID"
-              required
-              {...register("studentID", { required: true })}
+              {...register("studentID")}
             />
           </Grid>
         </Grid>

@@ -19,7 +19,12 @@ export default function SignUp() {
   const submitRef = createRef<HTMLButtonElement>();
 
   const steps = {
-    "Basic Info": <BasicInfo submitRef={submitRef} />,
+    "Basic Info": (
+      <BasicInfo
+        submitRef={submitRef}
+        nextStep={() => setActiveStep(activeStep + 1)}
+      />
+    ),
     College: <College submitRef={submitRef} />,
     Social: <Social submitRef={submitRef} />,
   };
@@ -27,8 +32,9 @@ export default function SignUp() {
   const handleBack = () => setActiveStep(activeStep - 1);
   const handleNext = () => {
     submitRef.current?.click();
-    // TODO: prevent the next step action if there're issues with entered data or the submission is not finished
-    setActiveStep(activeStep + 1);
+    // TODO: prevent going to the next step if there're issues with entered data or the submission is not finished
+    // let the component decide whether to advance to the next step - pass this function into the component
+    // setActiveStep(activeStep + 1);
   };
 
   const stepWrapper = (component: React.ReactNode) => (

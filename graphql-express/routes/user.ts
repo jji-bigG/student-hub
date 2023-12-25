@@ -29,14 +29,13 @@ router
   })
   .post(async (req, res) => {
     // create a new user instance from registration
-    // make sure to call the auth/ route, aka chug that middleware
     const data = req.body;
     console.log(data);
 
     try {
       UserModel.register(data, data.password);
 
-      res.send(200);
+      res.sendStatus(200);
     } catch (error) {
       console.log(error);
       res.statusMessage = "Cannot create user";
