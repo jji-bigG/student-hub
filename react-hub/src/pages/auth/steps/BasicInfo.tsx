@@ -3,6 +3,7 @@ import {
   Container,
   CssBaseline,
   Grid,
+  LinearProgress,
   TextField,
   Typography,
 } from "@mui/material";
@@ -13,6 +14,7 @@ import { userRequests } from "../../../requests";
 interface Props {
   submitRef: RefObject<HTMLButtonElement>;
   nextStep: VoidFunction;
+  setError: React.Dispatch<React.SetStateAction<string>>;
 }
 
 interface FormProps {
@@ -23,7 +25,7 @@ interface FormProps {
   password: string;
 }
 
-export default function BasicInfo({ submitRef, nextStep }: Props) {
+export default function BasicInfo({ submitRef, nextStep, setError }: Props) {
   const {
     register,
     handleSubmit,
@@ -31,7 +33,15 @@ export default function BasicInfo({ submitRef, nextStep }: Props) {
   } = useForm<FormProps>();
 
   const onSubmit: SubmitHandler<FormProps> = (data) => {
-    userRequests.post("/", data);
+    userRequests
+      .post("/", data)
+      .then((resp) => {
+        // console.log("Response in register user: ", resp);
+        nextStep();
+      })
+      .catch((e) => {
+        console.log("Error in register user: ", e);
+      });
   };
 
   return (
@@ -81,7 +91,7 @@ export default function BasicInfo({ submitRef, nextStep }: Props) {
               helperText={
                 errors.username
                   ? errors.username.message
-                  : "Username cannot be changed."
+                  : "Username must be unique."
               }
               {...register("username", { required: true })}
             />
@@ -104,6 +114,7 @@ export default function BasicInfo({ submitRef, nextStep }: Props) {
               fullWidth
               variant="filled"
               label="Password"
+              type="password"
               required
               error={errors.password?.message === null}
               helperText={errors.password ? errors.password.message : ""}

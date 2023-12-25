@@ -99,7 +99,6 @@ interface Props {
 
 export default function MiniDrawer({ children }: Props) {
   const theme = useTheme();
-  const navigate = useNavigate();
   const [open, setOpen] = React.useState(false);
 
   const handleDrawerOpen = () => {

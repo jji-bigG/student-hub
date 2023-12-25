@@ -2,7 +2,10 @@ import {
   Box,
   Button,
   Container,
+  IconButton,
+  LinearProgress,
   Paper,
+  Snackbar,
   Step,
   StepLabel,
   Stepper,
@@ -12,9 +15,11 @@ import React, { createRef, useState } from "react";
 import BasicInfo from "./steps/BasicInfo";
 import College from "./steps/College";
 import Social from "./steps/Social";
+import CloseIcon from "@mui/icons-material/Close";
 
 export default function SignUp() {
   const [activeStep, setActiveStep] = useState(0);
+  const [error, setError] = useState("");
 
   const submitRef = createRef<HTMLButtonElement>();
 
@@ -23,6 +28,7 @@ export default function SignUp() {
       <BasicInfo
         submitRef={submitRef}
         nextStep={() => setActiveStep(activeStep + 1)}
+        setError={setError}
       />
     ),
     College: <College submitRef={submitRef} />,
@@ -36,6 +42,8 @@ export default function SignUp() {
     // let the component decide whether to advance to the next step - pass this function into the component
     // setActiveStep(activeStep + 1);
   };
+
+  const handleErrorClose = () => setError("");
 
   const stepWrapper = (component: React.ReactNode) => (
     <React.Fragment>
@@ -74,6 +82,24 @@ export default function SignUp() {
         ) : (
           stepWrapper(Object.values(steps)[activeStep])
         )}
+
+        {/* for showing the pop up snackbar messages across the steps */}
+        <Snackbar
+          open={error.length !== 0}
+          autoHideDuration={6000}
+          onClose={handleErrorClose}
+          message={error}
+          action={
+            <IconButton
+              size="small"
+              aria-label="close"
+              color="inherit"
+              onClick={handleErrorClose}
+            >
+              <CloseIcon fontSize="small" />
+            </IconButton>
+          }
+        />
       </Paper>
     </Container>
   );

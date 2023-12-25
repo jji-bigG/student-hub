@@ -18,7 +18,6 @@ export const authenticate = passport.authenticate("local", {
   failureMessage: "Cannot authenticate",
   successRedirect: "/",
   failureRedirect: "/singin",
-  failureFlash: true,
 });
 
 router
@@ -39,7 +38,7 @@ router
     } catch (error) {
       console.log(error);
       res.statusMessage = "Cannot create user";
-      res.sendStatus(500).end();
+      res.sendStatus(500);
     }
   }, authenticate)
   .put(isAuthenticated, (req, res) => {

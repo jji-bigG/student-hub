@@ -1,5 +1,5 @@
 import { SubmitHandler, useForm } from "react-hook-form";
-import { Link, redirect } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
@@ -27,15 +27,17 @@ export default function SignIn() {
     // watch,
     formState: { errors },
   } = useForm<FormProps>();
+  const navigate = useNavigate();
 
   const onSubmit: SubmitHandler<FormProps> = async (data) => {
-    await userRequests.post("auth", data);
+    const resp = await userRequests.post("auth", data);
+    console.log(resp);
 
     const isAuthenticated = await userRequests.get("/");
     if (isAuthenticated.data.authenticated) {
       console.log(isAuthenticated.data);
 
-      redirect("/");
+      navigate("/");
     }
   };
 
@@ -77,6 +79,7 @@ export default function SignIn() {
             required
             fullWidth
             label="Password"
+            type="password"
             error={errors.password?.message === null}
             helperText={errors.password ? errors.password.message : ""}
             {...register("password", { required: true })}
