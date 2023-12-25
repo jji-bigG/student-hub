@@ -44,15 +44,6 @@ const closedMixin = (theme: Theme): CSSObject => ({
   },
 });
 
-const DrawerHeader = styled("div")(({ theme }) => ({
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "flex-end",
-  padding: theme.spacing(0, 1),
-  // necessary for content to be below app bar
-  ...theme.mixins.toolbar,
-}));
-
 interface AppBarProps extends MuiAppBarProps {
   open?: boolean;
 }
@@ -75,49 +66,34 @@ const AppBar = styled(MuiAppBar, {
   }),
 }));
 
-const Drawer = styled(MuiDrawer, {
-  shouldForwardProp: (prop) => prop !== "open",
-})(({ theme, open }) => ({
-  width: drawerWidth,
-  flexShrink: 0,
-  whiteSpace: "nowrap",
-  boxSizing: "border-box",
-  ...(open && {
-    ...openedMixin(theme),
-    "& .MuiDrawer-paper": openedMixin(theme),
-  }),
-  ...(!open && {
-    ...closedMixin(theme),
-    "& .MuiDrawer-paper": closedMixin(theme),
-  }),
-}));
-
 interface Props {
-  appbarButtons: React.ReactNode;
-  drawer: React.ReactNode;
+  AppbarButtons: React.ComponentType<{
+    handleDrawerOpen: VoidFunction;
+    handleDrawerClose?: VoidFunction;
+  }>;
+  Drawer: React.ComponentType<{
+    handleDrawerOpen?: VoidFunction;
+    handleDrawerClose: VoidFunction;
+  }>;
   children: React.ReactNode;
 }
 
-export default function AppNavBase({ appbarButtons, drawer, children }: Props) {
-  const theme = useTheme();
-  const navigate = useNavigate();
+export default function AppNavBase({ AppbarButtons, Drawer, children }: Props) {
   const [open, setOpen] = React.useState(false);
-
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
-
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
 
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
       <AppBar position="fixed" open={open}>
-        <Toolbar>{appbarButtons}</Toolbar>
+        <Toolbar>
+          <AppbarButtons handleDrawerOpen={() => setOpen(true)} />
+        </Toolbar>
       </AppBar>
-      {drawer}
+
+      <Drawer
+        handleDrawerClose={() => setOpen(false)}
+        handleDrawerOpen={() => setOpen(true)}
+      />
 
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         {children}

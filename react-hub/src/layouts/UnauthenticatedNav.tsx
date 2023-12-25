@@ -8,7 +8,7 @@ const UnauthenticatedNav = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <AppNavBase
-      appbarButtons={
+      AppbarButtons={() => (
         <>
           <Typography variant="h6" noWrap component="div">
             Student Hub - React Implementation
@@ -23,9 +23,9 @@ const UnauthenticatedNav = ({ children }: { children: React.ReactNode }) => {
             <Button onClick={() => navigate("/auth/signup")}>Sign Up</Button>
           </ButtonGroup>
         </>
-      }
+      )}
       children={children}
-      drawer={<></>}
+      Drawer={() => <></>}
     />
   );
 };

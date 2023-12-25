@@ -7,10 +7,8 @@ import UserModel from "../models/User.model";
 const router = Router();
 
 export const isAuthenticated: RequestHandler<{}> = (req, res, next) => {
-  console.log(req.user);
-
   if (req.user) next();
-  else res.json({ authenticated: false, user: req.user });
+  else res.json({ authenticated: false });
 };
 
 export const authenticate = passport.authenticate("local", {
@@ -24,7 +22,7 @@ router
   .route("/")
   .get(isAuthenticated, (req, res) => {
     // return the current user object if authenticated
-    res.json({ authenticated: true });
+    res.json({ authenticated: true, ...req.user });
   })
   .post(async (req, res) => {
     // create a new user instance from registration
