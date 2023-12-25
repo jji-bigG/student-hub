@@ -8,22 +8,28 @@ import {
   Stepper,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { createRef, useState } from "react";
 import BasicInfo from "./steps/BasicInfo";
 import College from "./steps/College";
 import Social from "./steps/Social";
 
-const steps = {
-  "Basic Info": <BasicInfo />,
-  College: <College />,
-  Social: <Social />,
-};
-
 export default function SignUp() {
   const [activeStep, setActiveStep] = useState(0);
 
+  const submitRef = createRef<HTMLButtonElement>();
+
+  const steps = {
+    "Basic Info": <BasicInfo submitRef={submitRef} />,
+    College: <College submitRef={submitRef} />,
+    Social: <Social submitRef={submitRef} />,
+  };
+
   const handleBack = () => setActiveStep(activeStep - 1);
-  const handleNext = () => setActiveStep(activeStep + 1);
+  const handleNext = () => {
+    submitRef.current?.click();
+    // TODO: prevent the next step action if there're issues with entered data or the submission is not finished
+    setActiveStep(activeStep + 1);
+  };
 
   const stepWrapper = (component: React.ReactNode) => (
     <React.Fragment>
@@ -48,7 +54,7 @@ export default function SignUp() {
         sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}
       >
         <Typography component="h1" variant="h5" align="center">
-          Signing Up for Student Hub
+          Sign Up for Student Hub
         </Typography>
         <Stepper activeStep={activeStep} sx={{ pt: 3, pb: 5 }}>
           {Object.keys(steps).map((step) => (

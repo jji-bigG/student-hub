@@ -9,26 +9,34 @@ import "@fontsource/roboto/700.css";
 import SignIn from "./pages/auth/SignIn.tsx";
 import { createTheme } from "@mui/material";
 import { ThemeProvider } from "styled-components";
-import Navigation from "./layouts/Navigation.tsx";
-import MiniDrawer from "./layouts/MiniDrawer.tsx";
+import LoggedInNav from "./layouts/LoggedInNav.tsx";
 import SignUp from "./pages/auth/SignUp.tsx";
+import UnauthenticatedNav from "./layouts/UnauthenticatedNav.tsx";
 
 const router = createBrowserRouter([
   {
     path: "",
     element: (
-      <MiniDrawer>
+      <LoggedInNav>
         <App />
-      </MiniDrawer>
+      </LoggedInNav>
     ),
   },
   {
     path: "/auth",
-    element: <SignIn />,
+    element: (
+      <UnauthenticatedNav>
+        <SignIn />
+      </UnauthenticatedNav>
+    ),
   },
   {
     path: "/auth/signup",
-    element: <SignUp />,
+    element: (
+      <UnauthenticatedNav>
+        <SignUp />
+      </UnauthenticatedNav>
+    ),
   },
 ]);
 

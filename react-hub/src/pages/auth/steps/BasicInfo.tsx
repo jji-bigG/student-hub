@@ -2,11 +2,16 @@ import {
   Box,
   Container,
   CssBaseline,
+  Grid,
   TextField,
   Typography,
 } from "@mui/material";
-import React from "react";
-import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import React, { LegacyRef, RefObject } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+
+interface Props {
+  submitRef: RefObject<HTMLButtonElement>;
+}
 
 interface FormProps {
   firstName: string;
@@ -16,7 +21,7 @@ interface FormProps {
   password: string;
 }
 
-export default function BasicInfo() {
+export default function BasicInfo({ submitRef }: Props) {
   const {
     register,
     handleSubmit,
@@ -28,69 +33,80 @@ export default function BasicInfo() {
   return (
     <Container>
       <CssBaseline />
-      <Typography variant="h6">Create a new user instance</Typography>
+      <Typography variant="h6">New user instance</Typography>
 
       <Box
         component="form"
         onSubmit={handleSubmit(onSubmit)}
         noValidate
-        sx={{ mt: 2 }}
+        sx={{ mt: 2, alignContent: "center" }}
       >
-        <TextField
-          autoFocus
-          sx={{ my: 1 }}
-          variant="filled"
-          label="First Name"
-          required
-          error={errors.firstName?.message === null}
-          helperText={errors.firstName ? errors.firstName.message : ""}
-          {...register("firstName", { required: true })}
-        />
-        <TextField
-          sx={{ my: 1 }}
-          variant="filled"
-          label="Last Name"
-          required
-          error={errors.lastName?.message === null}
-          helperText={errors.lastName ? errors.lastName.message : ""}
-          {...register("lastName", { required: true })}
-        />
+        <button style={{ display: "none" }} type="submit" ref={submitRef} />
 
-        <TextField
-          fullWidth
-          sx={{ my: 1 }}
-          variant="filled"
-          label="Username"
-          required
-          error={errors.username?.message === null}
-          helperText={
-            errors.username
-              ? errors.username.message
-              : "Username cannot be changed."
-          }
-          {...register("email", { required: true })}
-        />
+        <Grid container spacing={2}>
+          <Grid item xs={6}>
+            <TextField
+              autoFocus
+              variant="filled"
+              label="First Name"
+              required
+              error={errors.firstName?.message === null}
+              helperText={errors.firstName ? errors.firstName.message : ""}
+              {...register("firstName", { required: true })}
+            />
+          </Grid>
 
-        <TextField
-          fullWidth
-          sx={{ my: 1 }}
-          variant="filled"
-          label="Email"
-          required
-          error={errors.email?.message === null}
-          helperText={errors.email ? errors.email.message : ""}
-          {...register("email", { required: true })}
-        />
-        <TextField
-          fullWidth
-          sx={{ my: 1 }}
-          variant="filled"
-          label="Password"
-          required
-          error={errors.password?.message === null}
-          helperText={errors.password ? errors.password.message : ""}
-          {...register("password", { required: true })}
-        />
+          <Grid item xs={6}>
+            <TextField
+              variant="filled"
+              label="Last Name"
+              required
+              error={errors.lastName?.message === null}
+              helperText={errors.lastName ? errors.lastName.message : ""}
+              {...register("lastName", { required: true })}
+            />
+          </Grid>
+
+          <Grid item xs={12}>
+            <TextField
+              fullWidth
+              variant="filled"
+              label="Username"
+              required
+              error={errors.username?.message === null}
+              helperText={
+                errors.username
+                  ? errors.username.message
+                  : "Username cannot be changed."
+              }
+              {...register("email", { required: true })}
+            />
+          </Grid>
+
+          <Grid item xs={12}>
+            <TextField
+              fullWidth
+              variant="filled"
+              label="Email"
+              required
+              error={errors.email?.message === null}
+              helperText={errors.email ? errors.email.message : ""}
+              {...register("email", { required: true })}
+            />
+          </Grid>
+
+          <Grid item xs={12}>
+            <TextField
+              fullWidth
+              variant="filled"
+              label="Password"
+              required
+              error={errors.password?.message === null}
+              helperText={errors.password ? errors.password.message : ""}
+              {...register("password", { required: true })}
+            />
+          </Grid>
+        </Grid>
       </Box>
     </Container>
   );
