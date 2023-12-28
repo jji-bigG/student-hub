@@ -46,7 +46,7 @@ export default function AppNavBase({ AppbarButtons, Drawer, children }: Props) {
 
   return (
     <Box sx={{ display: "flex" }}>
-      <CssBaseline />
+      {/* <CssBaseline /> */}
       <AppBar position="fixed" open={open}>
         <Toolbar>
           <AppbarButtons handleDrawerOpen={() => setOpen(true)} />
@@ -58,7 +58,7 @@ export default function AppNavBase({ AppbarButtons, Drawer, children }: Props) {
         handleDrawerOpen={() => setOpen(true)}
       />
 
-      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+      <Box component="main" sx={{ flexGrow: 1, mt: 8 }}>
         {children}
       </Box>
     </Box>

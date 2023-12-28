@@ -18,6 +18,7 @@ import AppNavBase from "./AppNavBase";
 import { userRequests } from "../requests";
 import { useNavigate } from "react-router-dom";
 import { Box, Tooltip, Avatar, Menu, MenuItem } from "@mui/material";
+import { UserAvatar } from "../components/layouts/UserAvatar";
 
 const drawerWidth = 240;
 
@@ -72,24 +73,11 @@ interface Props {
   children: React.ReactNode;
 }
 
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
-
-export default function MiniDrawer({ children }: Props) {
+export default function LoggedInNav({ children }: Props) {
   const theme = useTheme();
   const nav = useNavigate();
 
   const [open, setOpen] = React.useState(false);
-  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
-    null
-  );
-
-  const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElUser(event.currentTarget);
-  };
-
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
-  };
 
   // useEffect to run once to check with server if we are authenticated,
   // and update the profile bar with the fetched user data if so
@@ -134,34 +122,7 @@ export default function MiniDrawer({ children }: Props) {
 
           {/* this should be after the login, so a profile dropdown thing should be rendered */}
 
-          <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar>JJ</Avatar>
-              </IconButton>
-            </Tooltip>
-            <Menu
-              sx={{ mt: "45px" }}
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box>
+          <UserAvatar />
         </>
       )}
       Drawer={({ handleDrawerClose }) => (
